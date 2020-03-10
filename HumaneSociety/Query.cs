@@ -167,14 +167,28 @@ namespace HumaneSociety
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
             //throw new NotImplementedException();
-            CreateEmployee(employee);
-            ReadEmployee(employee);
-            UpdateEmployee();
-            DeleteEmployee();
+            switch (crudOperation)
+            {
+                case "create":
+                    CreateEmployee(employee);
+                    break;
+                case "read":
+                    ReadEmployee(employee);
+                    break;
+                case "update":
+                    UpdateEmployee(employee);
+                    break;
+                case "delete":
+                    DeleteEmployee(employee);
+                    break;
+                default:
+                    break;
+            }
         }
         private static void CreateEmployee(Employee employee)
         {
             db.Employees.InsertOnSubmit(employee);
+            db.SubmitChanges();
         }
         private static void ReadEmployee(Employee employee)
         {
@@ -182,11 +196,11 @@ namespace HumaneSociety
             
             UserInterface.DisplayEmployeeInfo(foundEmployee);
         }
-        private static void UpdateEmployee()
+        private static void UpdateEmployee(Employee employee)
         {
 
         }
-        private static void DeleteEmployee()
+        private static void DeleteEmployee(Employee employee)
         {
 
         }

@@ -55,6 +55,7 @@ namespace HumaneSociety
             else
             {
                 UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
+                UserInterface.Pause();
                 RunUserMenus();
             }
         }
@@ -75,6 +76,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Employee update unsuccessful please try again or type exit;");
+                UserInterface.Pause();
                 return;
             }
         }
@@ -91,6 +93,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Employee not found please try again or type exit;");
+                UserInterface.Pause();
                 return;
             }
         }
@@ -110,6 +113,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Employee removal unsuccessful please try again or type exit");
+                UserInterface.Pause();
                 RemoveEmployee();
             }
         }
@@ -130,6 +134,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Employee addition unsuccessful please try again or type exit;");
+                UserInterface.Pause();
                 return;
             }
         }

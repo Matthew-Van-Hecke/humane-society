@@ -17,11 +17,17 @@ namespace HumaneSociety
         }
         public static void DisplayEmployeeInfo(Employee employee)
         {
-            Console.WriteLine($"Name: {employee.FirstName} {employee.LastName}\nEmployee Number: {employee.EmployeeNumber}\nEmail: {employee.Email}\nUsername: {employee.UserName}\nPassword: {employee.Password}");
+            Console.WriteLine($"Name: {employee.FirstName} {employee.LastName}\nEmployee Number: {employee.EmployeeNumber}\nEmail: {employee.Email}\nUsername: {employee.UserName}\nPassword has been set: {(employee.Password != null ? true:false)}");
+            Pause();
         }
         public static void DisplayUserOptions(string options)
         {
             Console.WriteLine(options);
+        }
+        public static void Pause()
+        {
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
         public static string GetUserInput()
         {
