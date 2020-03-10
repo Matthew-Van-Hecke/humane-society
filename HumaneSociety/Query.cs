@@ -203,6 +203,7 @@ namespace HumaneSociety
                 Employee employeeToUpdate = db.Employees.FirstOrDefault(e => e.FirstName == employee.FirstName && e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber);
                 List<string> options = new List<string>() { "What would you like to update? Please enter number of option. When done updating.", "1: First Name", "2: Last Name", "3: Employee Number", "4: Email", "5: Username", "6: Password", "7: Submit Changes" };
                 Dictionary<string, string> valuesToUpdate = new Dictionary<string, string>();
+
                 int input = 0;
                 var employees = db.Employees.ToList<Employee>();
                 List<int?> employeeNumbers = employees.Select(a => a.EmployeeNumber).ToList<int?>();
@@ -215,22 +216,27 @@ namespace HumaneSociety
                     switch (input)
                     {
                         case 1:
+                            UserInterface.DisplayUserOptions("New First Name:");
                             valuesToUpdate["FirstName"] = UserInterface.GetUserInput();
                             break;
                         case 2:
+                            UserInterface.DisplayUserOptions("New Last Name:");
                             valuesToUpdate["LastName"] = UserInterface.GetUserInput();
                             break;
                         case 3:
                             do
                             {
+                                UserInterface.DisplayUserOptions("New Employee Number:");
                                 valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
                                 validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
                             } while (!validResponse);
                             break;
                         case 4:
+                            UserInterface.DisplayUserOptions("New Email:");
                             valuesToUpdate["Email"] = UserInterface.GetEmail();
                             break;
                         case 5:
+                            UserInterface.DisplayUserOptions("New Username:");
                             string username = UserInterface.GetUserInput();
                             if (!usernames.Contains(username))
                             {
@@ -238,21 +244,50 @@ namespace HumaneSociety
                             }
                             break;
                         case 6:
+                            UserInterface.DisplayUserOptions("New Password:");
                             valuesToUpdate["Password"] = UserInterface.GetUserInput();
+                            break;
+                        case 7:
                             break;
                     }
                 }
-                string newFirstName = UserInterface.GetStringData("first name", "updated");
-                Console.WriteLine((newFirstName ==  "" ? employeeToUpdate.FirstName : newFirstName));
-                
+                SubmitDictionaryToDB(valuesToUpdate, employeeToUpdate);
+                UserInterface.DisplayEmployeeInfo(employeeToUpdate);
                 UserInterface.Pause();
-                //
             }
-            catch
+            catch (Exception)
             {
                 UserInterface.DisplayUserOptions("Employee not found. Please try again.");
                 UserInterface.Pause();
             }
+        }
+        private static void SubmitDictionaryToDB(Dictionary<string,string> keyValues, Employee employeeToUpdate)
+        {
+            if(keyValues.ContainsKey("FirstName"))
+            {
+                employeeToUpdate.FirstName = keyValues["FirstName"];
+            }
+            if (keyValues.ContainsKey("LastName"))
+            {
+                employeeToUpdate.LastName = keyValues["LastName"];
+            }
+            if (keyValues.ContainsKey("EmployeeNumber"))
+            {
+                employeeToUpdate.EmployeeNumber = int.Parse(keyValues["EmployeeNumber"]);
+            }
+            if (keyValues.ContainsKey("Email"))
+            {
+                employeeToUpdate.Email = keyValues["Email"];
+            }
+            if (keyValues.ContainsKey("Username"))
+            {
+                employeeToUpdate.UserName = keyValues["UserName"];
+            }
+            if (keyValues.ContainsKey("Password"))
+            {
+                employeeToUpdate.Password = keyValues["Password"];
+            }
+            db.SubmitChanges();
         }
         private static void DeleteEmployee(Employee employee)
         {
