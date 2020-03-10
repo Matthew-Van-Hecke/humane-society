@@ -198,7 +198,61 @@ namespace HumaneSociety
         }
         private static void UpdateEmployee(Employee employee)
         {
-
+            try
+            {
+                Employee employeeToUpdate = db.Employees.FirstOrDefault(e => e.FirstName == employee.FirstName && e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber);
+                List<string> options = new List<string>() { "What would you like to update? Please enter number of option. When done updating.", "1: First Name", "2: Last Name", "3: Employee Number", "4: Email", "5: Username", "6: Password", "7: Submit Changes" };
+                Dictionary<string, string> valuesToUpdate = new Dictionary<string, string>();
+                int input = 0;
+                var employees = db.Employees.ToList<Employee>();
+                List<int?> employeeNumbers = employees.Select(a => a.EmployeeNumber).ToList<int?>();
+                List<string> usernames = employees.Select(a => a.UserName).ToList<string>();
+                while (input != 7)
+                {
+                    UserInterface.DisplayUserOptions(options);
+                    input = UserInterface.GetIntegerData();
+                    bool validResponse;
+                    switch (input)
+                    {
+                        case 1:
+                            valuesToUpdate["FirstName"] = UserInterface.GetUserInput();
+                            break;
+                        case 2:
+                            valuesToUpdate["LastName"] = UserInterface.GetUserInput();
+                            break;
+                        case 3:
+                            do
+                            {
+                                valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
+                                validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
+                            } while (!validResponse);
+                            break;
+                        case 4:
+                            valuesToUpdate["Email"] = UserInterface.GetEmail();
+                            break;
+                        case 5:
+                            string username = UserInterface.GetUserInput();
+                            if (!usernames.Contains(username))
+                            {
+                                valuesToUpdate["Username"] = username;
+                            }
+                            break;
+                        case 6:
+                            valuesToUpdate["Password"] = UserInterface.GetUserInput();
+                            break;
+                    }
+                }
+                string newFirstName = UserInterface.GetStringData("first name", "updated");
+                Console.WriteLine((newFirstName ==  "" ? employeeToUpdate.FirstName : newFirstName));
+                
+                UserInterface.Pause();
+                //
+            }
+            catch
+            {
+                UserInterface.DisplayUserOptions("Employee not found. Please try again.");
+                UserInterface.Pause();
+            }
         }
         private static void DeleteEmployee(Employee employee)
         {

@@ -93,6 +93,19 @@ namespace HumaneSociety
                 return false;
             }
         }
+        public static string GetEmail()
+        {
+            string email = GetUserInput();
+            if (email.Contains("@") && email.Contains("."))
+            {
+                return email;
+            }
+            else
+            {
+                Console.WriteLine("Not a valid email address. Please enter a different one.");
+                return GetEmail();
+            }
+        }
 
         internal static void DisplayAnimals(List<Animal> animals)
         {
