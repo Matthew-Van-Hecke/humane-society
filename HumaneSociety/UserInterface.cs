@@ -15,6 +15,10 @@ namespace HumaneSociety
                 Console.WriteLine(option);
             }
         }
+        public static void DisplayEmployeeInfo(Employee employee)
+        {
+            Console.WriteLine($"Name: {employee.FirstName} {employee.LastName}\nEmployee Number: {employee.EmployeeNumber}\nEmail: {employee.Email}\nUsername: {employee.UserName}\nPassword: {employee.Password}");
+        }
         public static void DisplayUserOptions(string options)
         {
             Console.WriteLine(options);
