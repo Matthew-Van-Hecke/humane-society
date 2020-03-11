@@ -396,7 +396,7 @@ namespace HumaneSociety
         internal static void Adopt(Animal animal, Client client)
         {
             animal = db.Animals.FirstOrDefault(a => a.AnimalId == animal.AnimalId);
-            //update adoption table
+            //insert adoption to table
             Adoption adoption = new Adoption() { ClientId = client.ClientId, AnimalId = animal.AnimalId, ApprovalStatus = "Pending", AdoptionFee = 300, PaymentCollected = false, };
             adoption.Animal = animal;
             adoption.Client = client;
@@ -408,7 +408,8 @@ namespace HumaneSociety
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            var listOfPendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "Pending").Select(a => a);
+            return listOfPendingAdoptions;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
