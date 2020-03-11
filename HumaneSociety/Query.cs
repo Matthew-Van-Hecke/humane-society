@@ -361,6 +361,7 @@ namespace HumaneSociety
             {
                 animalToUpdate.Weight = int.Parse(updates[7]);
             }
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
@@ -371,7 +372,7 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+
         }
          
         // TODO: Misc Animal Things
