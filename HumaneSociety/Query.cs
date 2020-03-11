@@ -370,9 +370,43 @@ namespace HumaneSociety
         }
         
         // TODO: Animal Multi-Trait Search
-        internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
+        internal static List<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-
+            IQueryable<Animal> animals1 = db.Animals;
+            foreach (int key in updates.Keys)
+            {
+                switch(key)
+                {
+                    case 1:
+                        animals1 = animals1.Where(a => a.CategoryId == GetCategoryId(updates[key]));
+                        break;
+                    case 2:
+                        animals1 = animals1.Where(a => a.Name == updates[key]);
+                        break;
+                    case 3:
+                        animals1 = animals1.Where(a => a.Age == int.Parse(updates[key]));
+                        break;
+                    case 4:
+                        animals1 = animals1.Where(a => a.Demeanor == updates[key]);
+                        break;
+                    case 5:
+                        animals1 = animals1.Where(a => a.KidFriendly == bool.Parse(updates[key]));
+                        break;
+                    case 6:
+                        animals1 = animals1.Where(a => a.PetFriendly == bool.Parse(updates[key]));
+                        break;
+                    case 7:
+                        animals1 = animals1.Where(a => a.Weight == int.Parse(updates[key]));
+                        break;
+                    case 8:
+                        animals1 = animals1.Where(a => a.AnimalId == int.Parse(updates[key]));
+                        break;
+                    default:
+                        UserInterface.DisplayUserOptions("Error. Please contact your administrator.");
+                        break;
+                }
+            }
+            return animals1.ToList();
         }
          
         // TODO: Misc Animal Things
