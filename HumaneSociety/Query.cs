@@ -208,57 +208,61 @@ namespace HumaneSociety
                 var employees = db.Employees.ToList<Employee>();
                 List<int?> employeeNumbers = employees.Select(a => a.EmployeeNumber).ToList<int?>();
                 List<string> usernames = employees.Select(a => a.UserName).ToList<string>();
-                while (input != 7)
-                {
-                    UserInterface.DisplayUserOptions(options);
-                    input = UserInterface.GetIntegerData();
-                    bool validResponse;
-                    switch (input)
-                    {
-                        case 1:
-                            UserInterface.DisplayUserOptions("New First Name:");
-                            valuesToUpdate["FirstName"] = UserInterface.GetUserInput();
-                            break;
-                        case 2:
-                            UserInterface.DisplayUserOptions("New Last Name:");
-                            valuesToUpdate["LastName"] = UserInterface.GetUserInput();
-                            break;
-                        case 3:
-                            do
-                            {
-                                UserInterface.DisplayUserOptions("New Employee Number:");
-                                valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
-                                validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
-                            } while (!validResponse);
-                            break;
-                        case 4:
-                            UserInterface.DisplayUserOptions("New Email:");
-                            valuesToUpdate["Email"] = UserInterface.GetEmail();
-                            break;
-                        case 5:
-                            UserInterface.DisplayUserOptions("New Username:");
-                            string username = UserInterface.GetUserInput();
-                            if (!usernames.Contains(username))
-                            {
-                                valuesToUpdate["Username"] = username;
-                            }
-                            break;
-                        case 6:
-                            UserInterface.DisplayUserOptions("New Password:");
-                            valuesToUpdate["Password"] = UserInterface.GetUserInput();
-                            break;
-                        case 7:
-                            break;
-                    }
-                }
+                GetNewValuesForDictionary(input, options, valuesToUpdate, employeeNumbers, usernames);
                 SubmitDictionaryToDB(valuesToUpdate, employeeToUpdate);
                 UserInterface.DisplayEmployeeInfo(employeeToUpdate);
-                UserInterface.Pause();
             }
             catch (Exception)
             {
                 UserInterface.DisplayUserOptions("Employee not found. Please try again.");
                 UserInterface.Pause();
+            }
+        }
+        private static void GetNewValuesForDictionary(int input, List<string> options, Dictionary<string, string> valuesToUpdate, List<int?> employeeNumbers, List<string> usernames)
+        {
+            while (input != 7)
+            {
+                UserInterface.DisplayUserOptions(options);
+                input = UserInterface.GetIntegerData();
+                bool validResponse = false;
+                switch (input)
+                {
+                    case 1:
+                        UserInterface.DisplayUserOptions("New First Name:");
+                        valuesToUpdate["FirstName"] = UserInterface.GetUserInput();
+                        break;
+                    case 2:
+                        UserInterface.DisplayUserOptions("New Last Name:");
+                        valuesToUpdate["LastName"] = UserInterface.GetUserInput();
+                        break;
+                    case 3:
+                        ValidateEmployeeNumber(valuesToUpdate,employeeNumbers,validResponse);
+                        do
+                        {
+                            UserInterface.DisplayUserOptions("New Employee Number:");
+                            valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
+                            validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
+                        } while (!validResponse);
+                        break;
+                    case 4:
+                        UserInterface.DisplayUserOptions("New Email:");
+                        valuesToUpdate["Email"] = UserInterface.GetEmail();
+                        break;
+                    case 5:
+                        UserInterface.DisplayUserOptions("New Username:");
+                        string username = UserInterface.GetUserInput();
+                        if (!usernames.Contains(username))
+                        {
+                            valuesToUpdate["Username"] = username;
+                        }
+                        break;
+                    case 6:
+                        UserInterface.DisplayUserOptions("New Password:");
+                        valuesToUpdate["Password"] = UserInterface.GetUserInput();
+                        break;
+                    case 7:
+                        break;
+                }
             }
         }
         private static void SubmitDictionaryToDB(Dictionary<string,string> keyValues, Employee employeeToUpdate)
@@ -281,7 +285,7 @@ namespace HumaneSociety
             }
             if (keyValues.ContainsKey("Username"))
             {
-                employeeToUpdate.UserName = keyValues["UserName"];
+                employeeToUpdate.UserName = keyValues["Username"];
             }
             if (keyValues.ContainsKey("Password"))
             {

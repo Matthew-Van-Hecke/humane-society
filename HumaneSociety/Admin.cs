@@ -130,6 +130,7 @@ namespace HumaneSociety
             {
                 Query.RunEmployeeQueries(employee, "create");
                 UserInterface.DisplayUserOptions("Employee addition successful.");
+                UserInterface.Pause();
             }
             catch
             {
