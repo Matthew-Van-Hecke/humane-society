@@ -148,7 +148,7 @@ namespace HumaneSociety
 
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
+            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).First();
 
             return employeeFromDb;
         }
