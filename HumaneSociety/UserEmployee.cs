@@ -252,11 +252,11 @@ namespace HumaneSociety
             do
             {
                 animalCategoryName = UserInterface.GetStringData("category/breed", "the name of the animal's");
-            } while (!UserInterface.CheckIfValueExistsInTable<string>(categories.Select(a => a.Name), animalCategoryName, "Categories"));
+            } while (!UserInterface.CheckIfValueExistsInTable<string>(categories.Select(a => a.Name.ToLower()), animalCategoryName.ToLower(), "Categories"));
             do
             {
                 animalDietPlanName = UserInterface.GetStringData("diet plan", "the name of the animal's");
-            } while (!UserInterface.CheckIfValueExistsInTable<string>(dietPlans.Select(a => a.Name), animalDietPlanName, "Diet Plans"));
+            } while (!UserInterface.CheckIfValueExistsInTable<string>(dietPlans.Select(a => a.Name.ToLower()), animalDietPlanName.ToLower(), "Diet Plans"));
 
             Animal animal = new Animal();
             animal.CategoryId = Query.GetCategoryId(animalCategoryName);
