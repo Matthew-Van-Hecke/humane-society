@@ -224,7 +224,7 @@ namespace HumaneSociety
             {
                 UserInterface.DisplayUserOptions(options);
                 input = UserInterface.GetIntegerData();
-                bool validResponse = false;
+                bool validResponse = default;
                 switch (input)
                 {
                     case 1:
@@ -236,25 +236,14 @@ namespace HumaneSociety
                         valuesToUpdate["LastName"] = UserInterface.GetUserInput();
                         break;
                     case 3:
-                        ValidateEmployeeNumber(valuesToUpdate,employeeNumbers,validResponse);
-                        do
-                        {
-                            UserInterface.DisplayUserOptions("New Employee Number:");
-                            valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
-                            validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
-                        } while (!validResponse);
+                        ValidateEmployeeNumber(valuesToUpdate,employeeNumbers,validResponse);                        
                         break;
                     case 4:
                         UserInterface.DisplayUserOptions("New Email:");
                         valuesToUpdate["Email"] = UserInterface.GetEmail();
                         break;
                     case 5:
-                        UserInterface.DisplayUserOptions("New Username:");
-                        string username = UserInterface.GetUserInput();
-                        if (!usernames.Contains(username))
-                        {
-                            valuesToUpdate["Username"] = username;
-                        }
+                        ValidateUsername(valuesToUpdate, usernames);                        
                         break;
                     case 6:
                         UserInterface.DisplayUserOptions("New Password:");
@@ -264,6 +253,24 @@ namespace HumaneSociety
                         break;
                 }
             }
+        }
+        private static void ValidateUsername(Dictionary<string,string> valuesToUpdate, List<string>usernames)
+        {
+            UserInterface.DisplayUserOptions("New Username:");
+            string username = UserInterface.GetUserInput();
+            if (!usernames.Contains(username))
+            {
+                valuesToUpdate["Username"] = username;
+            }
+        }
+        private static void ValidateEmployeeNumber(Dictionary<string, string> valuesToUpdate, List<int?> employeeNumbers, bool validResponse)
+        {
+            do
+            {
+                UserInterface.DisplayUserOptions("New Employee Number:");
+                valuesToUpdate["EmployeeNumber"] = UserInterface.GetUserInput();
+                validResponse = int.TryParse(valuesToUpdate["EmployeeNumber"], out int num) && !employeeNumbers.Contains(num);
+            } while (!validResponse);
         }
         private static void SubmitDictionaryToDB(Dictionary<string,string> keyValues, Employee employeeToUpdate)
         {
@@ -341,7 +348,7 @@ namespace HumaneSociety
         
         internal static int GetDietPlanId(string dietPlanName)
         {
-            return db.DietPlans.FirstOrDefault(a => a.Name == dietPlanName) != null ? db.DietPlans.FirstOrDefault(a => a.Name == dietPlanName).DietPlanId : 0;
+            throw new NotImplementedException();
         }
 
         // TODO: Adoption CRUD Operations
