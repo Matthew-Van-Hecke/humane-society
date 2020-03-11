@@ -98,7 +98,8 @@ namespace HumaneSociety
         {
             Console.Clear();
             var updates = UserInterface.GetAnimalSearchCriteria();
-            var animals = Query.SearchForAnimalsByMultipleTraits(updates).ToList();
+            var animals = Query.SearchForAnimalsByMultipleTraits(updates);
+            //List<Animal> animals = animalsQ.ToList();
             
             if(animals.Count > 1)
             {
