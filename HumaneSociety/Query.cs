@@ -291,7 +291,9 @@ namespace HumaneSociety
         }
         private static void DeleteEmployee(Employee employee)
         {
-
+            Employee foundEmployee = db.Employees.FirstOrDefault(a => a.EmployeeNumber == employee.EmployeeNumber);
+            db.Employees.DeleteOnSubmit(foundEmployee);
+            db.SubmitChanges();
         }
 
         // TODO: Animal CRUD Operations
