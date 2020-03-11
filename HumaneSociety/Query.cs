@@ -408,20 +408,24 @@ namespace HumaneSociety
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            var listOfPendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "Pending").Select(a => a);
-            return listOfPendingAdoptions;
+            var pendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "Pending").Select(a => a);
+            return pendingAdoptions;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
             adoption = db.Adoptions.FirstOrDefault(a => a.AnimalId == adoption.AnimalId && a.ApprovalStatus == adoption.ApprovalStatus);
             adoption.ApprovalStatus = (isAdopted == true) ? "Approved" : "Denied";
+            Animal foundAnimal = db.Animals.FirstOrDefault(a => a.AnimalId == adoption.AnimalId);
+            foundAnimal.AdoptionStatus = "Adopted";
             db.SubmitChanges();
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            
+            Adoption foundAdoption = db.Adoptions.FirstOrDefault(a => a.AnimalId == animalId && a.ClientId == clientId);
+            db.Adoptions.DeleteOnSubmit(foundAdoption);
+            db.SubmitChanges();
         }
 
         // TODO: Shots Stuff
