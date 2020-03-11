@@ -370,7 +370,7 @@ namespace HumaneSociety
         }
         
         // TODO: Animal Multi-Trait Search
-        internal static List<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
+        internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
             IQueryable<Animal> animals1 = db.Animals;
             foreach (int key in updates.Keys)
@@ -406,7 +406,7 @@ namespace HumaneSociety
                         break;
                 }
             }
-            return animals1.ToList();
+            return animals1;
         }
          
         // TODO: Misc Animal Things
