@@ -386,12 +386,14 @@ namespace HumaneSociety
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-            throw new NotImplementedException();
+            adoption = db.Adoptions.FirstOrDefault(a => a.AnimalId == adoption.AnimalId && a.ApprovalStatus == adoption.ApprovalStatus);
+            adoption.ApprovalStatus = (isAdopted == true) ? "Approved" : "Denied";
+            db.SubmitChanges();
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            throw new NotImplementedException();
+            
         }
 
         // TODO: Shots Stuff
