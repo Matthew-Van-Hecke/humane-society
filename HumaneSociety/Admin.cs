@@ -108,6 +108,7 @@ namespace HumaneSociety
                 Console.Clear();
                 Query.RunEmployeeQueries(employee, "delete");
                 UserInterface.DisplayUserOptions("Employee successfully removed");
+                UserInterface.Pause();
             }
             catch
             {
