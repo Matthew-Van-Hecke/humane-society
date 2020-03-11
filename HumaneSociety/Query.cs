@@ -308,8 +308,17 @@ namespace HumaneSociety
         }
 
         // TODO: Animal CRUD Operations
+        public static IEnumerable<Category> GetCategories()
+        {
+            return db.Categories;
+        }
+        public static IEnumerable<DietPlan> GetDietPlans()
+        {
+            return db.DietPlans;
+        }
         internal static void AddAnimal(Animal animal)
         {
+            IEnumerable<string> animalNames = db.Animals.Select(a => a.Name);
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
         }

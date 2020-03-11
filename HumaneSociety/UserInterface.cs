@@ -54,6 +54,18 @@ namespace HumaneSociety
             data = GetUserInput();
             return data;
         }
+        public static bool CheckIfValueExistsInTable<T>(IEnumerable<T> table, T value, string tableName)
+        {
+            if (table.Contains(value))
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine(tableName + " table does not contain '" + value.ToString() + "'. Please try again.");
+                return false;
+            }
+        }
 
         internal static bool? GetBitData(List<string> options)
         {

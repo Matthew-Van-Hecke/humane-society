@@ -245,9 +245,18 @@ namespace HumaneSociety
         private void AddAnimal()
         {
             Console.Clear();
-
-            string animalCategoryName = UserInterface.GetStringData("category/breed", "the name of the animal's");
-            string animalDietPlanName = UserInterface.GetStringData("diet plan", "the name of the animal's");
+            string animalCategoryName;
+            string animalDietPlanName;
+            IEnumerable<Category> categories = Query.GetCategories();
+            IEnumerable<DietPlan> dietPlans = Query.GetDietPlans();
+            do
+            {
+                animalCategoryName = UserInterface.GetStringData("category/breed", "the name of the animal's");
+            } while (!UserInterface.CheckIfValueExistsInTable<string>(categories.Select(a => a.Name), animalCategoryName, "Categories"));
+            do
+            {
+                animalDietPlanName = UserInterface.GetStringData("diet plan", "the name of the animal's");
+            } while (!UserInterface.CheckIfValueExistsInTable<string>(dietPlans.Select(a => a.Name), animalDietPlanName, "Diet Plans"));
 
             Animal animal = new Animal();
             animal.CategoryId = Query.GetCategoryId(animalCategoryName);
