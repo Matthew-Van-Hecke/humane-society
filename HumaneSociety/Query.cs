@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -425,7 +426,51 @@ namespace HumaneSociety
         {
             return db.DietPlans.FirstOrDefault(a => a.Name == dietPlanName) != null ? db.DietPlans.FirstOrDefault(a => a.Name == dietPlanName).DietPlanId : 0;
         }
-
+        public static void AddAnimalsFromCSVToDatabase()
+        {
+            string csvFile = @"../../../animals.csv";
+            string[] lines = File.ReadAllLines(csvFile);
+            string[] linesTrimmed = new string[lines.Length];
+            List<Animal> animalsToAdd = new List<Animal>();
+            int count = 0;
+            foreach (string a in lines)
+            {
+                linesTrimmed[count] = a.Replace("\"", "").Trim();
+                count++;
+            }
+            foreach (string s in linesTrimmed)
+            {
+                string[] values = s.Split(',');
+                Animal animal = new Animal();
+                animal.Name = values[0].Trim();
+                animal.Weight = ConvertStringToNullableInt(values[1].Trim());
+                animal.Age = ConvertStringToNullableInt(values[2].Trim());
+                animal.Demeanor = values[3].Trim();
+                animal.KidFriendly = (values[4].Trim() == "1" ? true : false);
+                animal.PetFriendly = (values[5].Trim() == "1" ? true : false);
+                animal.Gender = values[6].Trim();
+                animal.AdoptionStatus = values[7].Trim();
+                animal.CategoryId = ConvertStringToNullableInt(values[8].Trim());
+                animal.DietPlanId = ConvertStringToNullableInt(values[9].Trim());
+                animal.EmployeeId = ConvertStringToNullableInt(values[10].Trim());
+                animalsToAdd.Add(animal);
+            }
+            foreach(Animal animal in animalsToAdd)
+            {
+                AddAnimal(animal);
+            }
+        }
+        internal static int? ConvertStringToNullableInt(string nullableInt)
+        {
+            try
+            {
+                return int.Parse(nullableInt);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
